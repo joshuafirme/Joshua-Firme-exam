@@ -13,10 +13,6 @@ new Vue({
           return value.substr(0, 85)+'...';
         }
       },
-      pic (value) {
-          return value;
-        
-      }
     },
     mounted () 
     {    
