@@ -7,8 +7,10 @@ class SyncYoutubeChannel
     private $db_name = "youtube_db";
     private $username = "root";
     private $password = "";
+
     private $channel_id = 'UCWJ2lWNubArHWmf3FIHbfcQ';
     private $api_key = 'AIzaSyDIq8uJvA1LC37VmKxeT0kXRsFqXYcYssA';
+    private $max_res = '50';
 
     public function getConnection()
     {
@@ -55,7 +57,7 @@ class SyncYoutubeChannel
 
     function getYoutubeVideoAPIResponse()
     {
-        $content = file_get_contents('https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId='.$this->channel_id.'&maxResults=10'.'&key='.$this->api_key);      
+        $content = file_get_contents('https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId='.$this->channel_id.'&maxResults='.$this->max_res.'&key='.$this->api_key);      
         return json_decode($content, TRUE);      
     }
 
@@ -115,7 +117,7 @@ class SyncYoutubeChannel
 
             $stmt->bindParam(":pic", $pic);
             $stmt->bindParam(":name", $name);
-            $stmt->bindParam(":description", $description);
+            $stmt->bindParam(":channel_description", $description);
 
                 if($stmt->execute()){
                     return true;
@@ -152,6 +154,14 @@ class SyncYoutubeChannel
 
   
 }
+
+/*
+|--------------------------------------------------------------------------
+| Uncomment the code below to populate youtube_channel_videos
+|--------------------------------------------------------------------------
+*/
+//$sync_videos = new SyncYoutubeChannel();
+//$sync_videos->populateYoutubeVideos();
 
 
 ?>
